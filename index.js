@@ -20,11 +20,18 @@ const run = async () => {
         const database = client.db('tourPlaner');
         const destinationCollection = database.collection('destinations');
 
-        // //Get Destinations API
+        //Get Destinations API
         app.get('/destinations', async (req, res) => {
             const cursor = destinationCollection.find({});
             const destinations = await cursor.toArray();
             res.send(destinations);
+        })
+
+        //Post Destinations API
+        app.post('/destinations', async (req, res) => {
+            const newDestination = req.body;
+            const result = await destinationCollection.insertOne(newDestination);
+            res.json(result);
         })
 
     } finally {
